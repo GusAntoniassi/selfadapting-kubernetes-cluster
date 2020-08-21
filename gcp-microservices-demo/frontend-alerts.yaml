@@ -1,0 +1,31 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  labels:
+    app: frontend
+    prometheus: prometheus
+    role: alert-rules
+  name: frontend.rules
+spec:
+  groups:
+  - name: frontend.rules
+    rules:
+    - alert: aplicacao-lenta
+      annotations:
+        summary: Aplicação pode estar lenta
+        description: |
+          Mais de 5% das requisições duraram mais que 10ms para responder.
+          Adicione outro pod para servir a aplicação e verifique se o cache
+          está ativado e se a rotina de geração de cache está executando sem problemas
+        runbook_url: http://wiki.local/troubleshooting/aplicacao-lenta#frontend
+      expr: |
+        sum(rate(
+            nginx_ingress_controller_request_duration_seconds_bucket{ingress="frontend",le="0.01"}[5m]
+        )) by (ingress)
+        /
+        sum(rate(
+          nginx_ingress_controller_request_duration_seconds_count[5m]
+        )) by (ingress)
+        < 0.95
+      labels:
+        severity: notify

@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: ingress-nginx
+  name: frontend
+  namespace: gcp-microservices
+spec:
+  rules:
+  - host: gcp-store.local
+    http:
+      paths:
+      - backend:
+          serviceName: frontend
+          servicePort: http
+        path: /
+

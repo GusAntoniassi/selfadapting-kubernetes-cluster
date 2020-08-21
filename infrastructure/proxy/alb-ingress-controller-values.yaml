@@ -1,0 +1,4 @@
+autoDiscoverAwsRegion: true
+autoDiscoverAwsVpcID: true
+scope:
+  ingressClass: ingress-alb

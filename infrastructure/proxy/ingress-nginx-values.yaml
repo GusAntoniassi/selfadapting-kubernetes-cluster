@@ -1,0 +1,17 @@
+controller:
+  image:
+    repository: us.gcr.io/k8s-artifacts-prod/ingress-nginx/controller
+    tag: "v0.34.1"
+
+  ingressClass: ingress-nginx
+
+  service:
+    enabled: true
+    type: ClusterIP
+
+  metrics:
+    port: 10254
+    enabled: true
+
+    serviceMonitor:
+      enabled: true

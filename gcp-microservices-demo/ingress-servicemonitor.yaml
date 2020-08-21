@@ -1,0 +1,14 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: ingress-nginx-svc-monitor
+  namespace: proxy
+spec:
+  endpoints:
+  - path: /
+    interval: 30s
+    targetPort: http-metrics
+  selector:
+    matchLabels:
+      app.kubernetes.io/part-of: ingress-nginx
+
